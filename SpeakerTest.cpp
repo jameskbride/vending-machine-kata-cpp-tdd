@@ -2,6 +2,7 @@
 #include <gtest/gtest.h>
 
 using namespace CppTddExample;
+using namespace testing;
 
 TEST(SpeakerTest, WhenSpeakerSpeaksItShouldSayHelloWorld) {
     Speaker speaker;
