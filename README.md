@@ -14,6 +14,7 @@ This project requires:
 * cucumber-cpp
 
 The following steps are recommended (and are specific to Ubuntu 14.04, though they may work in lower versions):
+
 1. Install boost via: `sudo apt-get install libboost-all-dev`
 2. Install Ruby via RVM (http://rvm.io/rvm/install)
 3. Install qt4 via: `sudo apt-get install libqt4-dev`
@@ -24,6 +25,7 @@ The following steps are recommended (and are specific to Ubuntu 14.04, though th
 	4. Copy the .a and include/gtest to their respective locations (/usr/lib and /usr/include)
 5. Download cucumber-cpp (https://github.com/cucumber/cucumber-cpp) and build it from source. NOTE: I ran into issues with pthread dependencies.  I fixed this by adding `-lpthread` to the `CMAKE_EXE_LINKER_FLAGS`
 6. Once cucumber-cpp has been built (and good luck with that btw, may God have mercy on your soul.), you'll need to perform the same steps that you did with GMock and GTest, copying the .a (located in the `src` directory) files to `/usr/lib` and the `include/cucumber-cpp` directory to `/usr/include`.
+
 While you _can_ get GTest and GMock via apt on Ubuntu I recommend against it as I paid a 
 high cost in time an energy trying to get these libraries to play nice with cucumber-cpp, which
 is not currently distributed in any convenient package form. I ran into a number of version inconsistencies by attempting to use the distributed packages instead of the downloaded and built source.
