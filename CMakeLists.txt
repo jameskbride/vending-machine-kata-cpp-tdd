@@ -16,10 +16,13 @@ set(project_feature_src
     features/step_definitions/SpeakerSteps.cpp
 )
 
+add_library(SpeakerLib ${project_src})
+
 include_directories(${GTEST_INCLUDE_DIRS} ${CMAKE_SOURCE_DIR})
 enable_testing()
-add_executable(runTests ${project_test_src} ${project_src})
-target_link_libraries(runTests ${GTEST_LIBRARIES} pthread)
+add_executable(RunTests ${project_test_src} ${project_src})
+target_link_libraries(RunTests ${GTEST_LIBRARIES} pthread)
+add_dependencies(RunTests SpeakerLib)
 
 #get boost
 set(CUKE_CORE_BOOST_LIBS thread system regex date_time)
@@ -35,3 +38,14 @@ set(CUKE_INCLUDE_DIRS /usr/include/cucumber-cpp)
 set(CUKE_LIBRARIES libcucumber-cpp.a)
 add_executable(SpeakerSteps ${project_feature_src} ${project_src})
 target_link_libraries(SpeakerSteps ${CUKE_LIBRARIES} ${CUKE_EXTRA_LIBRARIES} ${GTEST_LIBRARIES} pthread)
+add_dependencies(SpeakerSteps RunTests SpeakerLib)
+
+add_executable(RunAllTests ${project_test_src} ${project_feature_src} ${project_src})
+target_link_libraries(RunAllTests ${CUKE_LIBRARIES} ${CUKE_EXTRA_LIBRARIES} ${GTEST_LIBRARIES} pthread)
+
+add_custom_command(TARGET RunAllTests
+    POST_BUILD
+    COMMAND RunTests
+    COMMAND SpeakerSteps 55555 &
+    COMMAND cucumber -s ${CMAKE_SOURCE_DIR}/features
+)
