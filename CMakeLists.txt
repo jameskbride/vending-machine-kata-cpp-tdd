@@ -1,22 +1,22 @@
 cmake_minimum_required(VERSION 2.8)
-project(cpp-tdd-example CXX)
+project(vending-machine-kata CXX)
 find_package(GTest REQUIRED)
 
 set(project_src
-    Speaker.h
-    Speaker.cpp
+    VendingMachine.h
+    VendingMachine.cpp
 )
 
 set(project_test_src
     ExampleTestsMain.cpp
-    SpeakerTest.cpp
+    VendingMachineTest.cpp
 )
 
 set(project_feature_src
-    features/step_definitions/SpeakerSteps.cpp
+    features/step_definitions/VendingMachineSteps.cpp
 )
 
-add_library(SpeakerLib ${project_src})
+add_library(VendingMachineLib ${project_src})
 
 include_directories(${GTEST_INCLUDE_DIRS} ${CMAKE_SOURCE_DIR})
 enable_testing()
@@ -36,9 +36,9 @@ set(CUKE_EXTRA_LIBRARIES ${CUKE_EXTRA_LIBRARIES} ${Boost_THREAD_LIBRARY} ${Boost
 #Create the cucumber wire server to provide steps
 set(CUKE_INCLUDE_DIRS /usr/include/cucumber-cpp)
 set(CUKE_LIBRARIES libcucumber-cpp.a)
-add_executable(SpeakerSteps ${project_feature_src} ${project_src})
-target_link_libraries(SpeakerSteps ${CUKE_LIBRARIES} ${CUKE_EXTRA_LIBRARIES} ${GTEST_LIBRARIES} pthread)
-add_dependencies(SpeakerSteps RunTests SpeakerLib)
+add_executable(VendingMachineSteps ${project_feature_src} ${project_src})
+target_link_libraries(VendingMachineSteps ${CUKE_LIBRARIES} ${CUKE_EXTRA_LIBRARIES} ${GTEST_LIBRARIES} pthread)
+add_dependencies(VendingMachineSteps VendingMachineLib)
 
 add_executable(RunAllTests ${project_test_src} ${project_feature_src} ${project_src})
 target_link_libraries(RunAllTests ${CUKE_LIBRARIES} ${CUKE_EXTRA_LIBRARIES} ${GTEST_LIBRARIES} pthread)
@@ -46,6 +46,6 @@ target_link_libraries(RunAllTests ${CUKE_LIBRARIES} ${CUKE_EXTRA_LIBRARIES} ${GT
 add_custom_command(TARGET RunAllTests
     POST_BUILD
     COMMAND RunTests
-    COMMAND SpeakerSteps 55555 &
+    COMMAND VendingMachineSteps 55555 &
     COMMAND cucumber -s ${CMAKE_SOURCE_DIR}/features
 )
