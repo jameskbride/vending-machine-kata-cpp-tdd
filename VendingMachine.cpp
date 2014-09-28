@@ -18,6 +18,9 @@ double VendingMachine::calculateTotalInserted()
         case NICKEL:
             total += 0.05;
             break;
+        case DIME:
+            total += 0.10;
+            break;
         default:
             total += 0.0;
             break;

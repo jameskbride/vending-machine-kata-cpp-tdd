@@ -23,9 +23,14 @@ TEST_F(VendingMachineTest, GivenNoCoinsThenTheDisplayShouldReadINSERTCOIN) {
     EXPECT_EQ("INSERT COIN", vendingMachine.readDisplay());
 }
 
-TEST_F(VendingMachineTest, GivenANickelIsInsertedThenTheDisplayShouldReadFiveCents)
-{
+TEST_F(VendingMachineTest, GivenANickelIsInsertedThenTheDisplayShouldReadFiveCents) {
     vendingMachine.insert(NICKEL);
 
     EXPECT_EQ("0.05", vendingMachine.readDisplay());
+}
+
+TEST_F(VendingMachineTest, GivenADimeIsInsertedThenTheDisplayShouldReadTenCents) {
+    vendingMachine.insert(DIME);
+
+    EXPECT_EQ("0.10", vendingMachine.readDisplay());
 }

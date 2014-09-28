@@ -7,7 +7,8 @@
 namespace VendingMachineApp {
 
     enum coins {
-        NICKEL
+        NICKEL,
+        DIME
     };
 
     class VendingMachine

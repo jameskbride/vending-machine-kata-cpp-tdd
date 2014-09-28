@@ -18,6 +18,10 @@ GIVEN("^a nickel is inserted$") {
     context->vendingMachine.insert(NICKEL);
 }
 
+GIVEN("^a dime is inserted$") {
+    ScenarioScope<Context> context;
+    context->vendingMachine.insert(DIME);
+}
 
 THEN("^the vending machine displays '(.*)'$") {
     ScenarioScope<Context> context;
