@@ -3,17 +3,28 @@
 #include <gtest/gtest.h>
 
 using namespace VendingMachineApp;
+using namespace testing;
 
-TEST(VendingMachineTest, GivenNoCoinsThenTheDisplayShouldReadINSERTCOIN) {
+class VendingMachineTest : public Test {
+
+public:
+    VendingMachineTest() {
+
+    }
+
+    ~VendingMachineTest() {
+
+    }
+
     VendingMachine vendingMachine;
+};
 
+TEST_F(VendingMachineTest, GivenNoCoinsThenTheDisplayShouldReadINSERTCOIN) {
     EXPECT_EQ("INSERT COIN", vendingMachine.readDisplay());
 }
 
-TEST(VendingMachineTest, GivenANickelIsInsertedThenTheDisplayShouldReadFiveCents)
+TEST_F(VendingMachineTest, GivenANickelIsInsertedThenTheDisplayShouldReadFiveCents)
 {
-    VendingMachine vendingMachine;
-
     vendingMachine.insert(NICKEL);
 
     EXPECT_EQ("0.05", vendingMachine.readDisplay());
