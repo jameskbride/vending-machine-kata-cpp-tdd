@@ -34,3 +34,9 @@ TEST_F(VendingMachineTest, GivenADimeIsInsertedThenTheDisplayShouldReadTenCents)
 
     EXPECT_EQ("0.10", vendingMachine.readDisplay());
 }
+
+TEST_F(VendingMachineTest, GivenAQuarterIsInsertedThenTheDisplayShouldReadTwentyFiveCents) {
+    vendingMachine.insert(QUARTER);
+
+    EXPECT_EQ("0.25", vendingMachine.readDisplay());
+}

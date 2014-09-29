@@ -21,6 +21,9 @@ double VendingMachine::calculateTotalInserted()
         case DIME:
             total += 0.10;
             break;
+        case QUARTER:
+            total += 0.25;
+            break;
         default:
             total += 0.0;
             break;

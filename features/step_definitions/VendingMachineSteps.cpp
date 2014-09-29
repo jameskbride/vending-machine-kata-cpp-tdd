@@ -23,6 +23,12 @@ GIVEN("^a dime is inserted$") {
     context->vendingMachine.insert(DIME);
 }
 
+GIVEN("^a quarter is inserted$") {
+    ScenarioScope<Context> context;
+    context->vendingMachine.insert(QUARTER);
+}
+
+
 THEN("^the vending machine displays '(.*)'$") {
     ScenarioScope<Context> context;
     REGEX_PARAM(std::string, displayValue);

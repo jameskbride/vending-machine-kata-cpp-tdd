@@ -10,3 +10,7 @@ Feature: Accept Coins
         Scenario: Accept a dime
         Given a dime is inserted
         Then the vending machine displays '0.10'
+
+        Scenario: Accept a quarter
+        Given a quarter is inserted
+        Then the vending machine displays '0.25'
