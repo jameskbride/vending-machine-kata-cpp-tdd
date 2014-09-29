@@ -10,11 +10,14 @@ const char* QUARTER = "QUARTER";
 
 VendingMachine::VendingMachine()
     : InsertedCoins()
+    , ValidCoins()
 {
+    ValidCoins.push_back(NICKEL);
+    ValidCoins.push_back(DIME);
+    ValidCoins.push_back(QUARTER);
 }
 
-double VendingMachine::calculateTotalInserted()
-{
+double VendingMachine::calculateTotalInserted() {
     double total = 0.0;
     for (std::vector<std::string>::iterator it = InsertedCoins.begin(); it != InsertedCoins.end(); ++it) {
         if (*it == NICKEL) {
@@ -31,8 +34,7 @@ double VendingMachine::calculateTotalInserted()
     return total;
 }
 
-std::string VendingMachine::generateFormattedMessage(double total)
-{
+std::string VendingMachine::generateFormattedMessage(double total) {
     char buffer[4];
     std::sprintf(buffer, "%0.2f", total);
     std::string formattedString(buffer);
@@ -40,13 +42,34 @@ std::string VendingMachine::generateFormattedMessage(double total)
     return formattedString;
 }
 
-std::string VendingMachine::readDisplay()
-{
+std::string VendingMachine::readDisplay() {
     double total = calculateTotalInserted();
     std::string formattedMessage = generateFormattedMessage(total);
     return total > 0 ? formattedMessage : std::string(INSERT_COIN_MESSAGE);
 }
 
+bool VendingMachine::isValidCoin(std::string coin)
+{
+    bool foundCoin = false;
+    for (std::vector<std::string>::iterator it = ValidCoins.begin(); it != ValidCoins.end(); ++it) {
+        if (*it != coin) {
+            continue;
+        }
+
+        foundCoin = true;
+    }
+
+    return foundCoin;
+}
+
 void VendingMachine::insert(std::string coin) {
-    InsertedCoins.push_back(coin);
+    if (isValidCoin(coin)) {
+        InsertedCoins.push_back(coin);
+    } else {
+        ReturnedCoins.push_back(coin);
+    }
+}
+
+std::vector<std::string> VendingMachine::checkCoinReturn() {
+    return ReturnedCoins;
 }

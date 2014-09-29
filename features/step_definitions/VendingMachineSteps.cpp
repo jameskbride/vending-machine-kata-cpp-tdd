@@ -31,7 +31,7 @@ GIVEN("^a quarter is inserted$") {
 GIVEN("^a '(.*)' is inserted$") {
     ScenarioScope<Context> context;
     REGEX_PARAM(std::string, invalidCoin);
-    EXPECT_EQ("INSERT COIN", context->vendingMachine.readDisplay());
+    context->vendingMachine.insert(invalidCoin);
 }
 
 THEN("^the vending machine displays '(.*)'$") {
@@ -39,3 +39,19 @@ THEN("^the vending machine displays '(.*)'$") {
     REGEX_PARAM(std::string, displayValue);
     EXPECT_EQ(displayValue, context->vendingMachine.readDisplay());
 }
+
+THEN("^the coin return contains the '(.*)'$") {
+    ScenarioScope<Context> context;
+    REGEX_PARAM(std::string, invalidCoin);
+    std::vector<std::string> returnedCoins = context->vendingMachine.checkCoinReturn();
+    bool foundCoin = false;
+    for (std::vector<std::string>::iterator it = returnedCoins.begin(); it != returnedCoins.end(); ++it) {
+        if (*it != invalidCoin) {
+            continue;
+        }
+
+        foundCoin = true;
+    }
+    EXPECT_TRUE(foundCoin);
+}
+

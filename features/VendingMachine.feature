@@ -18,3 +18,4 @@ Feature: Accept Coins
         Scenario: Don't accept an invalid coin
         Given a 'penny' is inserted
         Then the vending machine displays 'INSERT COIN'
+        And the coin return contains the 'penny'
