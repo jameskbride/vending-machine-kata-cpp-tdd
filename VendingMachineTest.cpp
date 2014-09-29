@@ -1,9 +1,39 @@
 #include <VendingMachine.h>
-
 #include <gtest/gtest.h>
 
 using namespace VendingMachineApp;
 using namespace testing;
+
+struct CoinTestValues {
+    CoinTestValues(std::string coin, std::string expectedMessage)
+        : Coin(coin)
+        , ExpectedMessage(expectedMessage)
+    {
+    }
+
+    std::string Coin;
+    std::string ExpectedMessage;
+};
+
+class VendingMachineSingleCoinTest : public TestWithParam<CoinTestValues> {
+public:
+    VendingMachine vendingMachine;
+};
+
+TEST_P(VendingMachineSingleCoinTest, GivenACoinItShouldDisplayTheCorrectMessage) {
+    vendingMachine.insert(GetParam().Coin);
+
+    EXPECT_EQ(GetParam().ExpectedMessage, vendingMachine.readDisplay());
+}
+
+INSTANTIATE_TEST_CASE_P(ParameterizedSingleCoinTest, VendingMachineSingleCoinTest,
+    Values(
+        CoinTestValues("NICKEL",  "0.05"),
+        CoinTestValues("DIME",    "0.10"),
+        CoinTestValues("QUARTER", "0.25"),
+        CoinTestValues("PENNY",   "INSERT COIN")
+    )
+);
 
 class VendingMachineTest : public Test {
 
@@ -20,29 +50,6 @@ public:
 };
 
 TEST_F(VendingMachineTest, GivenNoCoinsThenTheDisplayShouldReadINSERTCOIN) {
-    EXPECT_EQ("INSERT COIN", vendingMachine.readDisplay());
-}
-
-TEST_F(VendingMachineTest, GivenANickelIsInsertedThenTheDisplayShouldReadFiveCents) {
-    vendingMachine.insert("NICKEL");
-
-    EXPECT_EQ("0.05", vendingMachine.readDisplay());
-}
-
-TEST_F(VendingMachineTest, GivenADimeIsInsertedThenTheDisplayShouldReadTenCents) {
-    vendingMachine.insert("DIME");
-
-    EXPECT_EQ("0.10", vendingMachine.readDisplay());
-}
-
-TEST_F(VendingMachineTest, GivenAQuarterIsInsertedThenTheDisplayShouldReadTwentyFiveCents) {
-    vendingMachine.insert("QUARTER");
-
-    EXPECT_EQ("0.25", vendingMachine.readDisplay());
-}
-
-TEST_F(VendingMachineTest, GivenAPennyIsInsertedThenTheDisplayShouldReadINSERTCOIN) {
-    vendingMachine.insert("PENNY");
     EXPECT_EQ("INSERT COIN", vendingMachine.readDisplay());
 }
 
