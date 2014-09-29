@@ -28,6 +28,11 @@ GIVEN("^a quarter is inserted$") {
     context->vendingMachine.insert("QUARTER");
 }
 
+GIVEN("^a '(.*)' is inserted$") {
+    ScenarioScope<Context> context;
+    REGEX_PARAM(std::string, invalidCoin);
+    EXPECT_EQ("INSERT COIN", context->vendingMachine.readDisplay());
+}
 
 THEN("^the vending machine displays '(.*)'$") {
     ScenarioScope<Context> context;
