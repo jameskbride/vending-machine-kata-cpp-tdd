@@ -6,22 +6,16 @@
 
 namespace VendingMachineApp {
 
-    enum coins {
-        NICKEL,
-        DIME,
-        QUARTER
-    };
-
     class VendingMachine
     {
     public:
         VendingMachine();
 
         std::string readDisplay();
-        void insert(coins coin);
+        void insert(std::string coin);
 
     private:
-        std::vector<coins> InsertedCoins;
+        std::vector<std::string> InsertedCoins;
 
         double calculateTotalInserted();
         std::string generateFormattedMessage(double total);

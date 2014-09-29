@@ -15,17 +15,17 @@ WHEN("^no coins are inserted$") {
 
 GIVEN("^a nickel is inserted$") {
     ScenarioScope<Context> context;
-    context->vendingMachine.insert(NICKEL);
+    context->vendingMachine.insert("NICKEL");
 }
 
 GIVEN("^a dime is inserted$") {
     ScenarioScope<Context> context;
-    context->vendingMachine.insert(DIME);
+    context->vendingMachine.insert("DIME");
 }
 
 GIVEN("^a quarter is inserted$") {
     ScenarioScope<Context> context;
-    context->vendingMachine.insert(QUARTER);
+    context->vendingMachine.insert("QUARTER");
 }
 
 

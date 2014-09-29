@@ -4,6 +4,9 @@
 using namespace VendingMachineApp;
 
 const char* INSERT_COIN_MESSAGE = "INSERT COIN";
+const char* NICKEL = "NICKEL";
+const char* DIME = "DIME";
+const char* QUARTER = "QUARTER";
 
 VendingMachine::VendingMachine()
     : InsertedCoins()
@@ -13,20 +16,15 @@ VendingMachine::VendingMachine()
 double VendingMachine::calculateTotalInserted()
 {
     double total = 0.0;
-    for (std::vector<coins>::iterator it = InsertedCoins.begin(); it != InsertedCoins.end(); ++it) {
-        switch (*it) {
-        case NICKEL:
+    for (std::vector<std::string>::iterator it = InsertedCoins.begin(); it != InsertedCoins.end(); ++it) {
+        if (*it == NICKEL) {
             total += 0.05;
-            break;
-        case DIME:
+        } else if (*it == DIME) {
             total += 0.10;
-            break;
-        case QUARTER:
+        } else if (*it == QUARTER) {
             total += 0.25;
-            break;
-        default:
+        } else {
             total += 0.0;
-            break;
         }
     }
 
@@ -49,6 +47,6 @@ std::string VendingMachine::readDisplay()
     return total > 0 ? formattedMessage : std::string(INSERT_COIN_MESSAGE);
 }
 
-void VendingMachine::insert(coins coin) {
+void VendingMachine::insert(std::string coin) {
     InsertedCoins.push_back(coin);
 }
