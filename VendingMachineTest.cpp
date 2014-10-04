@@ -1,3 +1,4 @@
+#include <TestUtils.h>
 #include <VendingMachine.h>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -109,36 +110,14 @@ TEST_F(VendingMachineTest, WhenAVendingMachineIsAssignedThenTheReturnedCoinsShou
     VendingMachine newVendingMachine;
     newVendingMachine = vendingMachine;
 
-    bool foundCoin = false;
-    std::vector<std::string> returnedCoins = newVendingMachine.checkCoinReturn();
-    for (std::vector<std::string>::iterator it = returnedCoins.begin(); it != returnedCoins.end(); ++it) {
-        if (*it != returnCoin) {
-            continue;
-        }
-
-        foundCoin = true;
-    }
-
-    EXPECT_TRUE(foundCoin);
+    EXPECT_THAT(returnCoin, InCoinReturnSlot(vendingMachine));
 }
 
-//MATCHER_P(InCoinReturnSlot, vendingMachine, "") {
-//    bool foundCoin = false;
-//    std::vector<std::string> returnedCoins = vendingMachine.checkCoinReturn();
-//    for (std::vector<std::string>::iterator it = returnedCoins.begin(); it != returnedCoins.end(); ++it) {
-//        if (*it != arg) {
-//            continue;
-//        }
 
-//        foundCoin = true;
-//    }
 
-//    return foundCoin;
-//}
+TEST_F(VendingMachineTest, GivenAPennyIsInsertedThenTheCoinReturnShouldContainThePenny) {
+    std::string penny("penny");
+    vendingMachine.insert(penny);
 
-//TEST_F(VendingMachineTest, DISABLED_GivenAPennyIsInsertedThenTheCoinReturnShouldContainThePenny) {
-//    std::string penny("penny");
-//    vendingMachine.insert(penny);
-
-//    EXPECT_THAT("penny", InCoinReturnSlot<VendingMachine>(vendingMachine));
-//}
+    EXPECT_THAT("penny", InCoinReturnSlot(vendingMachine));
+}

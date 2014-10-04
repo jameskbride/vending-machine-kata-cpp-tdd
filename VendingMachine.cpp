@@ -95,6 +95,6 @@ void VendingMachine::insert(std::string coin) {
     }
 }
 
-std::vector<std::string> VendingMachine::checkCoinReturn() {
+std::vector<std::string> VendingMachine::checkCoinReturn() const {
     return ReturnedCoins;
 }

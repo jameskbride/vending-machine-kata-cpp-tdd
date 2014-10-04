@@ -1,6 +1,8 @@
+#include <TestUtils.h>
 #include <VendingMachine.h>
-#include <gtest/gtest.h>
+
 #include <cucumber-cpp/defs.hpp>
+#include <gtest/gtest.h>
 
 using namespace VendingMachineApp;
 using cucumber::ScenarioScope;
@@ -43,15 +45,6 @@ THEN("^the vending machine displays '(.*)'$") {
 THEN("^the coin return contains the '(.*)'$") {
     ScenarioScope<Context> context;
     REGEX_PARAM(std::string, invalidCoin);
-    std::vector<std::string> returnedCoins = context->vendingMachine.checkCoinReturn();
-    bool foundCoin = false;
-    for (std::vector<std::string>::iterator it = returnedCoins.begin(); it != returnedCoins.end(); ++it) {
-        if (*it != invalidCoin) {
-            continue;
-        }
-
-        foundCoin = true;
-    }
-    EXPECT_TRUE(foundCoin);
+    EXPECT_THAT(invalidCoin, InCoinReturnSlot(context->vendingMachine));
 }
 

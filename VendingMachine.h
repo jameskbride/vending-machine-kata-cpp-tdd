@@ -18,7 +18,7 @@ namespace VendingMachineApp {
 
         std::string readDisplay();
         void insert(std::string coin);
-        std::vector<std::string> checkCoinReturn();
+        std::vector<std::string> checkCoinReturn() const;
 
     private:
         std::vector<std::string> InsertedCoins;
