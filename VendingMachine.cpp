@@ -17,6 +17,22 @@ VendingMachine::VendingMachine()
     ValidCoins.push_back(QUARTER);
 }
 
+VendingMachine::VendingMachine(const VendingMachine &rhs)
+    : InsertedCoins(rhs.InsertedCoins)
+    , ReturnedCoins(rhs.ReturnedCoins)
+{
+
+}
+
+bool VendingMachine::operator==(const VendingMachine& rhs) const {
+    return (this->InsertedCoins == rhs.InsertedCoins) &&
+            (this->ReturnedCoins == rhs.ReturnedCoins);
+}
+
+bool VendingMachine::operator!=(const VendingMachine& rhs) const {
+    return !(*this == rhs);
+}
+
 double VendingMachine::calculateTotalInserted() {
     double total = 0.0;
     for (std::vector<std::string>::iterator it = InsertedCoins.begin(); it != InsertedCoins.end(); ++it) {

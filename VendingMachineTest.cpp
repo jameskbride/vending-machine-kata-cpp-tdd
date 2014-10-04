@@ -1,4 +1,5 @@
 #include <VendingMachine.h>
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 using namespace VendingMachineApp;
@@ -53,18 +54,61 @@ TEST_F(VendingMachineTest, GivenNoCoinsThenTheDisplayShouldReadINSERTCOIN) {
     EXPECT_EQ("INSERT COIN", vendingMachine.readDisplay());
 }
 
-TEST_F(VendingMachineTest, GivenAPennyIsInsertedThenTheCoinReturnShouldContainThePenny) {
-    std::string penny("penny");
-    vendingMachine.insert(penny);
-    bool foundCoin = false;
-    std::vector<std::string> returnedCoins = vendingMachine.checkCoinReturn();
-    for (std::vector<std::string>::iterator it = returnedCoins.begin(); it != returnedCoins.end(); ++it) {
-        if (*it != penny) {
-            continue;
-        }
+TEST_F(VendingMachineTest, WhenTheVendingMachineIsCopiedWithNoCoinsThenTheNewVendingMachineShouldMatchTheExistingMachine) {
+    VendingMachine copiedMachine(vendingMachine);
 
-        foundCoin = true;
-    }
-
-    EXPECT_TRUE(foundCoin);
+    EXPECT_EQ(copiedMachine, vendingMachine);
 }
+
+TEST_F(VendingMachineTest, WhenTheVendingMachineIsCopiedWithInsertedCoinsThenTheNewVendingMachineShouldMatchTheExistingMachine) {
+    vendingMachine.insert("NICKEL");
+
+    VendingMachine copiedMachine(vendingMachine);
+
+    EXPECT_EQ(copiedMachine, vendingMachine);
+}
+
+TEST_F(VendingMachineTest, WhenTheVendingMachineIsCopiedWithReturnedCoinsThenTheNewVendingMachineShouldMatchTheExistingMachine) {
+    vendingMachine.insert("PENNY");
+
+    VendingMachine copiedMachine(vendingMachine);
+
+    EXPECT_EQ(copiedMachine, vendingMachine);
+}
+
+TEST_F(VendingMachineTest, GivenTwoVendingMachinesWithDifferentInsertedCoinsThenThenTheyShouldNotBeEqual) {
+    vendingMachine.insert("NICKEL");
+
+    VendingMachine emptyVendingMachine;
+
+    EXPECT_NE(emptyVendingMachine, vendingMachine);
+}
+
+TEST_F(VendingMachineTest, GivenTwoVendingMachinesWithDifferentReturnedCoinsThenTheyShouldNotBeEqual) {
+    vendingMachine.insert("PENNY");
+
+    VendingMachine emptyVendingMachine;
+
+    EXPECT_NE(emptyVendingMachine, vendingMachine);
+}
+
+//MATCHER_P(InCoinReturnSlot, vendingMachine, "") {
+//    bool foundCoin = false;
+//    std::vector<std::string> returnedCoins = vendingMachine.checkCoinReturn();
+//    for (std::vector<std::string>::iterator it = returnedCoins.begin(); it != returnedCoins.end(); ++it) {
+//        if (*it != arg) {
+//            continue;
+//        }
+
+//        foundCoin = true;
+//    }
+
+//    return foundCoin;
+//}
+
+//TEST_F(VendingMachineTest, DISABLED_GivenAPennyIsInsertedThenTheCoinReturnShouldContainThePenny) {
+//    std::string penny("penny");
+//    vendingMachine.insert(penny);
+
+//    EXPECT_THAT("penny", InCoinReturnSlot<VendingMachine>(vendingMachine));
+//}

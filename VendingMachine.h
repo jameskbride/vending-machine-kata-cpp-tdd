@@ -10,6 +10,9 @@ namespace VendingMachineApp {
     {
     public:
         VendingMachine();
+        VendingMachine(const VendingMachine& rhs);
+        bool operator==(const VendingMachine& rhs) const;
+        bool operator!=(const VendingMachine& rhs) const;
 
         std::string readDisplay();
         void insert(std::string coin);
