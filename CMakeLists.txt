@@ -16,6 +16,7 @@ set(project_src
 set(project_test_src
     ExampleTestsMain.cpp
     VendingMachineTest.cpp
+    VendingMachineInternalsTest.cpp
 )
 
 set(project_feature_src

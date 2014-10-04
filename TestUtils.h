@@ -2,6 +2,8 @@
 #define _TEST_UTILS_H
 #include <gmock/gmock.h>
 namespace VendingMachineApp {
+//MATCHER EXAMPLE
+//////////////////////////////////////////////////////
     MATCHER_P(InCoinReturnSlot, vendingMachine, "") {
         bool foundCoin = false;
         std::vector<std::string> returnedCoins(vendingMachine.checkCoinReturn());
@@ -16,4 +18,5 @@ namespace VendingMachineApp {
         return foundCoin;
     }
 }
+///////////////////////////////////////////////////////
 #endif // _TEST_UTILS_H

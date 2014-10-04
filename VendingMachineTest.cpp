@@ -6,6 +6,43 @@
 using namespace VendingMachineApp;
 using namespace testing;
 
+class VendingMachineTest : public Test {
+
+public:
+    VendingMachineTest() {
+
+    }
+
+    ~VendingMachineTest() {
+
+    }
+
+    VendingMachine vendingMachine;
+};
+
+TEST_F(VendingMachineTest, GivenNoCoinsThenTheDisplayShouldReadINSERTCOIN) {
+    EXPECT_EQ("INSERT COIN", vendingMachine.readDisplay());
+}
+
+TEST_F(VendingMachineTest, WhenAVendingMachineIsAssignedThenTheReturnedCoinsShouldMatch) {
+    std::string returnCoin("PENNY");
+    vendingMachine.insert(returnCoin);
+
+    VendingMachine newVendingMachine;
+    newVendingMachine = vendingMachine;
+
+    EXPECT_THAT(returnCoin, InCoinReturnSlot(vendingMachine));
+}
+
+TEST_F(VendingMachineTest, GivenAPennyIsInsertedThenTheCoinReturnShouldContainThePenny) {
+    std::string penny("penny");
+    vendingMachine.insert(penny);
+
+    EXPECT_THAT("penny", InCoinReturnSlot(vendingMachine));
+}
+
+// TEST_P Example
+/////////////////////////////////////////////////////////////////
 struct CoinTestValues {
     CoinTestValues(std::string coin, std::string expectedMessage)
         : Coin(coin)
@@ -37,87 +74,4 @@ INSTANTIATE_TEST_CASE_P(ParameterizedSingleCoinTest, VendingMachineSingleCoinTes
     )
 );
 
-class VendingMachineTest : public Test {
-
-public:
-    VendingMachineTest() {
-
-    }
-
-    ~VendingMachineTest() {
-
-    }
-
-    VendingMachine vendingMachine;
-};
-
-TEST_F(VendingMachineTest, GivenNoCoinsThenTheDisplayShouldReadINSERTCOIN) {
-    EXPECT_EQ("INSERT COIN", vendingMachine.readDisplay());
-}
-
-TEST_F(VendingMachineTest, WhenTheVendingMachineIsCopiedWithNoCoinsThenTheNewVendingMachineShouldMatchTheExistingMachine) {
-    VendingMachine copiedMachine(vendingMachine);
-
-    EXPECT_EQ(copiedMachine, vendingMachine);
-}
-
-TEST_F(VendingMachineTest, WhenTheVendingMachineIsCopiedWithInsertedCoinsThenTheNewVendingMachineShouldMatchTheExistingMachine) {
-    vendingMachine.insert("NICKEL");
-
-    VendingMachine copiedMachine(vendingMachine);
-
-    EXPECT_EQ(copiedMachine, vendingMachine);
-}
-
-TEST_F(VendingMachineTest, WhenTheVendingMachineIsCopiedWithReturnedCoinsThenTheNewVendingMachineShouldMatchTheExistingMachine) {
-    vendingMachine.insert("PENNY");
-
-    VendingMachine copiedMachine(vendingMachine);
-
-    EXPECT_EQ(copiedMachine, vendingMachine);
-}
-
-TEST_F(VendingMachineTest, GivenTwoVendingMachinesWithDifferentInsertedCoinsThenThenTheyShouldNotBeEqual) {
-    vendingMachine.insert("NICKEL");
-
-    VendingMachine emptyVendingMachine;
-
-    EXPECT_NE(emptyVendingMachine, vendingMachine);
-}
-
-TEST_F(VendingMachineTest, GivenTwoVendingMachinesWithDifferentReturnedCoinsThenTheyShouldNotBeEqual) {
-    vendingMachine.insert("PENNY");
-
-    VendingMachine emptyVendingMachine;
-
-    EXPECT_NE(emptyVendingMachine, vendingMachine);
-}
-
-TEST_F(VendingMachineTest, WhenAVendingMachineIsAssignedThenTheDisplayedTotalShouldMatch) {
-    vendingMachine.insert("NICKEL");
-    vendingMachine.insert("DIME");
-
-    VendingMachine newVendingMachine;
-    newVendingMachine = vendingMachine;
-
-    EXPECT_EQ("0.15", newVendingMachine.readDisplay());
-}
-
-TEST_F(VendingMachineTest, WhenAVendingMachineIsAssignedThenTheReturnedCoinsShouldMatch) {
-    std::string returnCoin("PENNY");
-    vendingMachine.insert(returnCoin);
-
-    VendingMachine newVendingMachine;
-    newVendingMachine = vendingMachine;
-
-    EXPECT_THAT(returnCoin, InCoinReturnSlot(vendingMachine));
-}
-
-
-
-TEST_F(VendingMachineTest, GivenAPennyIsInsertedThenTheCoinReturnShouldContainThePenny) {
-    std::string penny("penny");
-    vendingMachine.insert(penny);
-
-    EXPECT_THAT("penny", InCoinReturnSlot(vendingMachine));
-}
+//////////////////////////////////////////////////////////////////////
