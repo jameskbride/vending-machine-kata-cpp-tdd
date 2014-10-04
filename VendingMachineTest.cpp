@@ -92,6 +92,36 @@ TEST_F(VendingMachineTest, GivenTwoVendingMachinesWithDifferentReturnedCoinsThen
     EXPECT_NE(emptyVendingMachine, vendingMachine);
 }
 
+TEST_F(VendingMachineTest, WhenAVendingMachineIsAssignedThenTheDisplayedTotalShouldMatch) {
+    vendingMachine.insert("NICKEL");
+    vendingMachine.insert("DIME");
+
+    VendingMachine newVendingMachine;
+    newVendingMachine = vendingMachine;
+
+    EXPECT_EQ("0.15", newVendingMachine.readDisplay());
+}
+
+TEST_F(VendingMachineTest, WhenAVendingMachineIsAssignedThenTheReturnedCoinsShouldMatch) {
+    std::string returnCoin("PENNY");
+    vendingMachine.insert(returnCoin);
+
+    VendingMachine newVendingMachine;
+    newVendingMachine = vendingMachine;
+
+    bool foundCoin = false;
+    std::vector<std::string> returnedCoins = newVendingMachine.checkCoinReturn();
+    for (std::vector<std::string>::iterator it = returnedCoins.begin(); it != returnedCoins.end(); ++it) {
+        if (*it != returnCoin) {
+            continue;
+        }
+
+        foundCoin = true;
+    }
+
+    EXPECT_TRUE(foundCoin);
+}
+
 //MATCHER_P(InCoinReturnSlot, vendingMachine, "") {
 //    bool foundCoin = false;
 //    std::vector<std::string> returnedCoins = vendingMachine.checkCoinReturn();

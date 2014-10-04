@@ -33,6 +33,15 @@ bool VendingMachine::operator!=(const VendingMachine& rhs) const {
     return !(*this == rhs);
 }
 
+VendingMachine& VendingMachine::operator=(const VendingMachine& rhs) {
+    if (this != &rhs) {
+        InsertedCoins = rhs.InsertedCoins;
+        ReturnedCoins = rhs.ReturnedCoins;
+    }
+
+    return (*this);
+}
+
 double VendingMachine::calculateTotalInserted() {
     double total = 0.0;
     for (std::vector<std::string>::iterator it = InsertedCoins.begin(); it != InsertedCoins.end(); ++it) {
