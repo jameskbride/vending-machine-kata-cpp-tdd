@@ -55,5 +55,6 @@ THEN("^the coin return contains the '(.*)'$") {
         foundCoin = true;
     }
 
+    EXPECT_TRUE(foundCoin);
 }
 
