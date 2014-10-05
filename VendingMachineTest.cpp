@@ -1,6 +1,9 @@
 #include <VendingMachine.h>
 #include <CoinRegister.h>
 #include <CoinRegisterInterfaceMock.h>
+#include <ProductCatalog.h>
+#include <ProductCatalogInterfaceMock.h>
+
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
@@ -13,7 +16,8 @@ class VendingMachineTest : public Test
 public:
     VendingMachineTest()
         : TheCoinRegisterMock(new NiceMock<CoinRegisterInterfaceMock>())
-        , TheVendingMachine(TheCoinRegisterMock)
+        , TheProductCatalogMock(new NiceMock<ProductCatalogInterfaceMock>())
+        , TheVendingMachine(TheCoinRegisterMock, TheProductCatalogMock)
 
     {
     }
@@ -39,6 +43,7 @@ public:
     }
 
     NiceMock<CoinRegisterInterfaceMock>* TheCoinRegisterMock;
+    NiceMock<ProductCatalogInterfaceMock>* TheProductCatalogMock;
     VendingMachine TheVendingMachine;
 };
 
@@ -54,16 +59,31 @@ TEST_F(VendingMachineTest, GivenAPennyIsInsertedThenTheCoinReturnShouldContainTh
 
 TEST_F(VendingMachineTest, WhenTheCoinRegisterContainsFiftyCentsThenTheDisplayShouldReadFiftyCents)
 {
-    EXPECT_CALL(*TheCoinRegisterMock, CalculateTotalInserted()).WillOnce(Return(0.50));
+    ON_CALL(*TheCoinRegisterMock, Accept(_)).WillByDefault(Return(true));
+    EXPECT_CALL(*TheCoinRegisterMock, CalculateTotalInserted()).WillRepeatedly(Return(0.50));
+
+    TheVendingMachine.Insert("QUARTER");
+    TheVendingMachine.Insert("QUARTER");
 
     EXPECT_EQ("0.50", TheVendingMachine.ReadDisplay());
 }
 
 TEST_F(VendingMachineTest, WhenTheCoinRegisterIsEmptyThenTheDisplayShouldReadINSERTCOIN)
 {
-    EXPECT_CALL(*TheCoinRegisterMock, CalculateTotalInserted()).WillOnce(Return(0.00));
-
     EXPECT_EQ("INSERT COIN", TheVendingMachine.ReadDisplay());
+}
+
+TEST_F(VendingMachineTest, GivenEnoughMoneyHasBeenEnteredWhenChipsAreSelectedThenTheDisplayReadsTHANKYOU)
+{
+    Product chips("CHIPS", 0.50);
+    {
+        InSequence sequence;
+        EXPECT_CALL(*TheProductCatalogMock, GetProduct("CHIPS")).WillOnce(Return(chips));
+        EXPECT_CALL(*TheCoinRegisterMock, HasAtLeast(_)).WillOnce(Return(true));
+    }
+
+    TheVendingMachine.SelectProduct("CHIPS");
+    EXPECT_EQ("THANK YOU", TheVendingMachine.ReadDisplay());
 }
 
 // TEST_P Example
@@ -84,12 +104,14 @@ class VendingMachineSingleCoinTest : public TestWithParam<CoinTestValues>
 public:
     VendingMachineSingleCoinTest()
         : TheCoinRegister(new CoinRegister())
-        , TheVendingMachine(TheCoinRegister)
+        , TheProductCatalog(new ProductCatalog())
+        , TheVendingMachine(TheCoinRegister, TheProductCatalog)
     {
 
     }
 
     CoinRegisterInterface* TheCoinRegister;
+    ProductCatalogInterface* TheProductCatalog;
     VendingMachine TheVendingMachine;
 };
 

@@ -15,6 +15,7 @@ namespace VendingMachineApp
         bool IsValidCoin(const std::string& coin);
         bool Accept(const std::string &coin);
         double CalculateTotalInserted();
+        bool HasAtLeast(const double amount);
 
     private:
         std::vector<std::string> ValidCoins;

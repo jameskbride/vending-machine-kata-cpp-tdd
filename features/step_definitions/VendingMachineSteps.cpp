@@ -1,5 +1,6 @@
 #include <VendingMachine.h>
 #include <CoinRegister.h>
+#include <ProductCatalog.h>
 #include <cucumber-cpp/defs.hpp>
 #include <gtest/gtest.h>
 
@@ -9,12 +10,14 @@ using cucumber::ScenarioScope;
 struct Context {
     Context()
         : TheCoinRegister(new CoinRegister())
-        , vendingMachine(TheCoinRegister)
+        , TheProductCatalog(new ProductCatalog())
+        , vendingMachine(TheCoinRegister, TheProductCatalog)
     {
 
     }
 
     CoinRegisterInterface* TheCoinRegister;
+    ProductCatalogInterface* TheProductCatalog;
 	VendingMachine vendingMachine;
 };
 
@@ -46,6 +49,13 @@ GIVEN("^a '(.*)' is inserted$")
     ScenarioScope<Context> context;
     REGEX_PARAM(std::string, invalidCoin);
     context->vendingMachine.Insert(invalidCoin);
+}
+
+WHEN("^'(.*)' are selected$") {
+    ScenarioScope<Context> context;
+    REGEX_PARAM(std::string, product);
+
+    context->vendingMachine.SelectProduct(product);
 }
 
 THEN("^the vending machine displays '(.*)'$")

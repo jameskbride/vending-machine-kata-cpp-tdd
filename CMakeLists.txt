@@ -17,6 +17,11 @@ set(project_src
     CoinRegister.h
     CoinRegister.cpp
     CoinRegisterInterface.h
+    Product.h
+    Product.cpp
+    ProductCatalog.h
+    ProductCatalog.cpp
+    ProductCatalogInterface.h
     VendingMachine.h
     VendingMachine.cpp
 )
@@ -24,6 +29,8 @@ set(project_src
 set(project_test_src
     ExampleTestsMain.cpp
     CoinRegisterTest.cpp
+    ProductTest.cpp
+    ProductCatalogTest.cpp
     VendingMachineTest.cpp
 )
 
@@ -34,6 +41,8 @@ set(project_feature_src
 set(project_test_utils_src
     CoinRegisterInterfaceMock.h
     CoinRegisterInterfaceMock.cpp
+    ProductCatalogInterfaceMock.h
+    ProductCatalogInterfaceMock.cpp
 )
 
 #create the VendingMachine lib

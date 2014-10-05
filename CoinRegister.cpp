@@ -70,3 +70,13 @@ double CoinRegister::CalculateTotalInserted()
 
     return total;
 }
+
+bool CoinRegister::HasAtLeast(const double amount)
+{
+    if (CalculateTotalInserted() >= amount)
+    {
+        return true;
+    }
+
+    return false;
+}

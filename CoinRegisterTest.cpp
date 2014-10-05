@@ -73,3 +73,24 @@ TEST_F(CoinRegisterTest, GivenAPennyIsInsertedWhenTheTotalIsCalculatedThenItIsZe
 
     EXPECT_DOUBLE_EQ(0.00, TheCoinRegister.CalculateTotalInserted());
 }
+
+TEST_F(CoinRegisterTest, GivenEnoughMoneyIsInTheRegisterThenItHasAtLeastTheAmount)
+{
+    ASSERT_TRUE(TheCoinRegister.Accept("QUARTER"));
+
+    EXPECT_TRUE(TheCoinRegister.HasAtLeast(0.05));
+}
+
+TEST_F(CoinRegisterTest, GivenEqualMoneyIsInTheRegisterThenItHasAtLeastTheAmount)
+{
+    ASSERT_TRUE(TheCoinRegister.Accept("NICKEL"));
+
+    EXPECT_TRUE(TheCoinRegister.HasAtLeast(0.05));
+}
+
+TEST_F(CoinRegisterTest, GivenNotEnoughMoneyIsInTheRegisterThenItDoesNotHaveAtLeastTheAmount)
+{
+    ASSERT_TRUE(TheCoinRegister.Accept("NICKEL"));
+
+    EXPECT_FALSE(TheCoinRegister.HasAtLeast(0.25));
+}
