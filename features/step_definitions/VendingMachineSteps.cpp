@@ -10,42 +10,49 @@ struct Context {
 	VendingMachine vendingMachine;
 };
 
-WHEN("^no coins are inserted$") {
+WHEN("^no coins are inserted$")
+{
     //Do nothing
 }
 
-GIVEN("^a nickel is inserted$") {
+GIVEN("^a nickel is inserted$")
+{
     ScenarioScope<Context> context;
-    context->vendingMachine.insert("NICKEL");
+    context->vendingMachine.Insert("NICKEL");
 }
 
-GIVEN("^a dime is inserted$") {
+GIVEN("^a dime is inserted$")
+{
     ScenarioScope<Context> context;
-    context->vendingMachine.insert("DIME");
+    context->vendingMachine.Insert("DIME");
 }
 
-GIVEN("^a quarter is inserted$") {
+GIVEN("^a quarter is inserted$")
+{
     ScenarioScope<Context> context;
-    context->vendingMachine.insert("QUARTER");
+    context->vendingMachine.Insert("QUARTER");
 }
 
-GIVEN("^a '(.*)' is inserted$") {
+GIVEN("^a '(.*)' is inserted$")
+{
     ScenarioScope<Context> context;
     REGEX_PARAM(std::string, invalidCoin);
-    context->vendingMachine.insert(invalidCoin);
+    context->vendingMachine.Insert(invalidCoin);
 }
 
-THEN("^the vending machine displays '(.*)'$") {
+THEN("^the vending machine displays '(.*)'$")
+{
     ScenarioScope<Context> context;
     REGEX_PARAM(std::string, displayValue);
-    EXPECT_EQ(displayValue, context->vendingMachine.readDisplay());
+    EXPECT_EQ(displayValue, context->vendingMachine.ReadDisplay());
 }
 
-THEN("^the coin return contains the '(.*)'$") {
+THEN("^the coin return contains the '(.*)'$")
+{
     ScenarioScope<Context> context;
     REGEX_PARAM(std::string, invalidCoin);
     bool foundCoin = false;
-    std::vector<std::string> returnedCoins = context->vendingMachine.checkCoinReturn();
+    std::vector<std::string> returnedCoins = context->vendingMachine.CheckCoinReturn();
     for (std::vector<std::string>::iterator it = returnedCoins.begin(); it != returnedCoins.end(); ++it)
     {
         if (*it != invalidCoin) {

@@ -43,7 +43,8 @@ bool CoinRegister::IsValidCoin(const std::string& coin)
 
 bool CoinRegister::Accept(const std::string& coin)
 {
-    if (IsValidCoin(coin)) {
+    if (IsValidCoin(coin))
+    {
         InsertedCoins.push_back(coin);
         return true;
     }
@@ -54,7 +55,8 @@ bool CoinRegister::Accept(const std::string& coin)
 double CoinRegister::CalculateTotalInserted()
 {
     double total = 0.0;
-    for (std::vector<std::string>::iterator it = InsertedCoins.begin(); it != InsertedCoins.end(); ++it) {
+    for (std::vector<std::string>::iterator it = InsertedCoins.begin(); it != InsertedCoins.end(); ++it)
+    {
         if (*it == NICKEL) {
             total += 0.05;
         } else if (*it == DIME) {

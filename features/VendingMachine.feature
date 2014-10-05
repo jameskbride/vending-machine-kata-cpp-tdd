@@ -15,6 +15,12 @@ Feature: Accept Coins
         Given a quarter is inserted
         Then the vending machine displays '0.25'
 
+        Scenario: Accept multiple coins
+        Given a nickel is inserted
+        And a dime is inserted
+        And a quarter is inserted
+        Then the vending machine displays '0.40'
+
         Scenario: Don't accept an invalid coin
         Given a 'penny' is inserted
         Then the vending machine displays 'INSERT COIN'

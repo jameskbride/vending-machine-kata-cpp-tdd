@@ -4,7 +4,8 @@
 #include <string>
 #include <vector>
 
-namespace VendingMachineApp {
+namespace VendingMachineApp
+{
 
     class VendingMachine
     {
@@ -13,16 +14,15 @@ namespace VendingMachineApp {
         ~VendingMachine();
 
 
-        std::string readDisplay();
-        void insert(std::string coin);
-        std::vector<std::string> checkCoinReturn();
+        std::string ReadDisplay();
+        void Insert(std::string coin);
+        std::vector<std::string> CheckCoinReturn();
 
     private:
         std::vector<std::string> ReturnedCoins;
         CoinRegisterInterface* TheCoinRegister;
 
-        double calculateTotalInserted();
-        std::string generateFormattedMessage(double total);
+        std::string GenerateFormattedMessage(double total);
         //Not implemented
         VendingMachine(const VendingMachine& rhs);
     };

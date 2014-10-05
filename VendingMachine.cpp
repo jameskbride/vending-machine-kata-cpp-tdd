@@ -18,11 +18,8 @@ VendingMachine::~VendingMachine()
     TheCoinRegister = NULL;
 }
 
-double VendingMachine::calculateTotalInserted() {
-    return TheCoinRegister->CalculateTotalInserted();
-}
-
-std::string VendingMachine::generateFormattedMessage(double total) {
+std::string VendingMachine::GenerateFormattedMessage(double total)
+{
     char buffer[4];
     std::sprintf(buffer, "%0.2f", total);
     std::string formattedString(buffer);
@@ -30,19 +27,22 @@ std::string VendingMachine::generateFormattedMessage(double total) {
     return formattedString;
 }
 
-std::string VendingMachine::readDisplay() {
-    double total = calculateTotalInserted();
-    std::string formattedMessage = generateFormattedMessage(total);
+std::string VendingMachine::ReadDisplay()
+{
+    double total = TheCoinRegister->CalculateTotalInserted();
+    std::string formattedMessage = GenerateFormattedMessage(total);
     return total > 0 ? formattedMessage : std::string(INSERT_COIN_MESSAGE);
 }
 
-void VendingMachine::insert(std::string coin) {
+void VendingMachine::Insert(std::string coin)
+{
     if (!TheCoinRegister->Accept(coin))
     {
         ReturnedCoins.push_back(coin);
     }
 }
 
-std::vector<std::string> VendingMachine::checkCoinReturn() {
+std::vector<std::string> VendingMachine::CheckCoinReturn()
+{
     return ReturnedCoins;
 }
