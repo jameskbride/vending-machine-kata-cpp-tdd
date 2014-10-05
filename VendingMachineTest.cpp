@@ -1,4 +1,3 @@
-#include <TestUtils.h>
 #include <VendingMachine.h>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -24,21 +23,22 @@ TEST_F(VendingMachineTest, GivenNoCoinsThenTheDisplayShouldReadINSERTCOIN) {
     EXPECT_EQ("INSERT COIN", vendingMachine.readDisplay());
 }
 
-TEST_F(VendingMachineTest, WhenAVendingMachineIsAssignedThenTheReturnedCoinsShouldMatch) {
-    std::string returnCoin("PENNY");
-    vendingMachine.insert(returnCoin);
-
-    VendingMachine newVendingMachine;
-    newVendingMachine = vendingMachine;
-
-    EXPECT_THAT(returnCoin, InCoinReturnSlot(vendingMachine));
-}
-
 TEST_F(VendingMachineTest, GivenAPennyIsInsertedThenTheCoinReturnShouldContainThePenny) {
     std::string penny("penny");
     vendingMachine.insert(penny);
 
-    EXPECT_THAT("penny", InCoinReturnSlot(vendingMachine));
+    bool foundCoin = false;
+    std::vector<std::string> returnedCoins = vendingMachine.checkCoinReturn();
+    for (std::vector<std::string>::iterator it = returnedCoins.begin(); it != returnedCoins.end(); ++it)
+    {
+        if (*it != penny) {
+            continue;
+        }
+
+        foundCoin = true;
+    }
+
+    EXPECT_TRUE(foundCoin);
 }
 
 // TEST_P Example

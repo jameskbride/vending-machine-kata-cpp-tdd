@@ -73,4 +73,3 @@ TEST_F(CoinRegisterTest, GivenAPennyIsInsertedWhenTheTotalIsCalculatedThenItIsZe
 
     EXPECT_DOUBLE_EQ(0.00, TheCoinRegister.CalculateTotalInserted());
 }
-

@@ -7,58 +7,19 @@ using namespace VendingMachineApp;
 const char* INSERT_COIN_MESSAGE = "INSERT COIN";
 
 VendingMachine::VendingMachine()
-    : InsertedCoins()
-    , ReturnedCoins()
-    , ValidCoins()
+    : ReturnedCoins()
+    , TheCoinRegister(new CoinRegister())
 {
-    ValidCoins.push_back("NICKEL");
-    ValidCoins.push_back("DIME");
-    ValidCoins.push_back("QUARTER");
 }
 
 VendingMachine::~VendingMachine()
 {
-}
-
-VendingMachine::VendingMachine(const VendingMachine &rhs)
-    : InsertedCoins(rhs.InsertedCoins)
-    , ReturnedCoins(rhs.ReturnedCoins)
-{
-}
-
-bool VendingMachine::operator==(const VendingMachine& rhs) const {
-    return (this->InsertedCoins == rhs.InsertedCoins) &&
-            (this->ReturnedCoins == rhs.ReturnedCoins);
-}
-
-bool VendingMachine::operator!=(const VendingMachine& rhs) const {
-    return !(*this == rhs);
-}
-
-VendingMachine& VendingMachine::operator=(const VendingMachine& rhs) {
-    if (this != &rhs) {
-        InsertedCoins = rhs.InsertedCoins;
-        ReturnedCoins = rhs.ReturnedCoins;
-    }
-
-    return (*this);
+    delete TheCoinRegister;
+    TheCoinRegister = NULL;
 }
 
 double VendingMachine::calculateTotalInserted() {
-    double total = 0.0;
-    for (std::vector<std::string>::iterator it = InsertedCoins.begin(); it != InsertedCoins.end(); ++it) {
-        if (*it == "NICKEL") {
-            total += 0.05;
-        } else if (*it == "DIME") {
-            total += 0.10;
-        } else if (*it == "QUARTER") {
-            total += 0.25;
-        } else {
-            total += 0.0;
-        }
-    }
-
-    return total;
+    return TheCoinRegister->CalculateTotalInserted();
 }
 
 std::string VendingMachine::generateFormattedMessage(double total) {
@@ -75,28 +36,13 @@ std::string VendingMachine::readDisplay() {
     return total > 0 ? formattedMessage : std::string(INSERT_COIN_MESSAGE);
 }
 
-bool VendingMachine::isValidCoin(std::string coin)
-{
-    bool foundCoin = false;
-    for (std::vector<std::string>::iterator it = ValidCoins.begin(); it != ValidCoins.end(); ++it) {
-        if (*it != coin) {
-            continue;
-        }
-
-        foundCoin = true;
-    }
-
-    return foundCoin;
-}
-
 void VendingMachine::insert(std::string coin) {
-    if (isValidCoin(coin)) {
-        InsertedCoins.push_back(coin);
-    } else {
+    if (!TheCoinRegister->Accept(coin))
+    {
         ReturnedCoins.push_back(coin);
     }
 }
 
-std::vector<std::string> VendingMachine::checkCoinReturn() const {
+std::vector<std::string> VendingMachine::checkCoinReturn() {
     return ReturnedCoins;
 }

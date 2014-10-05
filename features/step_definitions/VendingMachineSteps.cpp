@@ -1,4 +1,3 @@
-#include <TestUtils.h>
 #include <VendingMachine.h>
 
 #include <cucumber-cpp/defs.hpp>
@@ -45,6 +44,16 @@ THEN("^the vending machine displays '(.*)'$") {
 THEN("^the coin return contains the '(.*)'$") {
     ScenarioScope<Context> context;
     REGEX_PARAM(std::string, invalidCoin);
-    EXPECT_THAT(invalidCoin, InCoinReturnSlot(context->vendingMachine));
+    bool foundCoin = false;
+    std::vector<std::string> returnedCoins = context->vendingMachine.checkCoinReturn();
+    for (std::vector<std::string>::iterator it = returnedCoins.begin(); it != returnedCoins.end(); ++it)
+    {
+        if (*it != invalidCoin) {
+            continue;
+        }
+
+        foundCoin = true;
+    }
+
 }
 

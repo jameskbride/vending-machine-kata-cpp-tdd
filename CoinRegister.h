@@ -12,10 +12,6 @@ namespace VendingMachineApp
     public:
         CoinRegister();
         virtual ~CoinRegister();
-        CoinRegister(const CoinRegister& rhs);
-        bool operator==(const CoinRegister& rhs) const;
-        bool operator!=(const CoinRegister& rhs) const;
-        CoinRegister& operator=(const CoinRegister& rhs);
         bool IsValidCoin(const std::string& coin);
         bool Accept(const std::string &coin);
         double CalculateTotalInserted();
@@ -23,6 +19,8 @@ namespace VendingMachineApp
     private:
         std::vector<std::string> ValidCoins;
         std::vector<std::string> InsertedCoins;
+        //Not implemented
+        CoinRegister(const CoinRegister& rhs);
     };
 }
 

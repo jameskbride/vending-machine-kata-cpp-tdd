@@ -25,25 +25,6 @@ CoinRegister::CoinRegister(const CoinRegister &rhs)
 
 }
 
-bool CoinRegister::operator==(const CoinRegister &rhs) const
-{
-    return (InsertedCoins == rhs.InsertedCoins);
-}
-
-bool CoinRegister::operator!=(const CoinRegister &rhs) const
-{
-    return !(*this == rhs);
-}
-
-CoinRegister& CoinRegister::operator=(const CoinRegister &rhs)
-{
-    if (this != &rhs) {
-        InsertedCoins = rhs.InsertedCoins;
-    }
-
-    return (*this);
-}
-
 bool CoinRegister::IsValidCoin(const std::string& coin)
 {
     bool foundCoin = false;
