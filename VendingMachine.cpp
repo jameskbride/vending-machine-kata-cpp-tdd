@@ -5,6 +5,7 @@
 using namespace VendingMachineApp;
 
 const char* INSERT_COIN_MESSAGE = "INSERT COIN";
+const char* THANK_YOU_MESSAGE = "THANK YOU";
 
 VendingMachine::VendingMachine(CoinRegisterInterface *coinRegister, ProductCatalogInterface* productCatalog)
     : ReturnedCoins()
@@ -61,6 +62,6 @@ void VendingMachine::SelectProduct(std::string product)
     Product productToVend = TheProductCatalog->GetProduct(product);
     if (TheCoinRegister->HasAtLeast(productToVend.GetPrice()))
     {
-        this->DisplayMessage = "THANK YOU";
+        this->DisplayMessage = std::string(THANK_YOU_MESSAGE);
     }
 }
