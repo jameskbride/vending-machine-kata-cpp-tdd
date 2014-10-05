@@ -1,7 +1,5 @@
 #shared libs
 if(BUILD_WITH_UNIT_TESTS OR BUILD_WITH_ACCEPTANCE_TESTS)
-
-
     set(project_test_utils_src
         CoinRegisterInterfaceMock.h
         CoinRegisterInterfaceMock.cpp

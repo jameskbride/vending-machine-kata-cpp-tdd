@@ -19,3 +19,11 @@ TEST(ProductTest, WhenProductsWithDifferentNamesAreComparedThenTheyAreNotEqual)
 
     EXPECT_NE(first, second);
 }
+
+TEST(ProductTest, WhenProductsWithTheSameNameAndDifferentPricesAreComparedThenTheyAreNotEqual)
+{
+    Product first("", 1.0);
+    Product second("", 0.0);
+
+    EXPECT_NE(first, second);
+}
