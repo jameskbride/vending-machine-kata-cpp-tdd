@@ -1,5 +1,5 @@
 #include <VendingMachine.h>
-
+#include <CoinRegister.h>
 #include <cucumber-cpp/defs.hpp>
 #include <gtest/gtest.h>
 
@@ -7,6 +7,14 @@ using namespace VendingMachineApp;
 using cucumber::ScenarioScope;
 
 struct Context {
+    Context()
+        : TheCoinRegister(new CoinRegister())
+        , vendingMachine(TheCoinRegister)
+    {
+
+    }
+
+    CoinRegisterInterface* TheCoinRegister;
 	VendingMachine vendingMachine;
 };
 

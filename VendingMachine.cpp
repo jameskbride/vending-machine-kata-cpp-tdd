@@ -6,9 +6,9 @@ using namespace VendingMachineApp;
 
 const char* INSERT_COIN_MESSAGE = "INSERT COIN";
 
-VendingMachine::VendingMachine()
+VendingMachine::VendingMachine(CoinRegisterInterface *coinRegister)
     : ReturnedCoins()
-    , TheCoinRegister(new CoinRegister())
+    , TheCoinRegister(coinRegister)
 {
 }
 

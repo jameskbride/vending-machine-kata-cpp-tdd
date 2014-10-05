@@ -39,12 +39,15 @@ set(project_test_utils_src
 #create the VendingMachine lib
 add_library(VendingMachineLib ${project_src})
 
+add_library(TestUtilsLib ${project_test_utils_src})
+add_dependencies(TestUtilsLib VendingMachineLib)
+
 #unit tests
 include_directories(${GTEST_INCLUDE_DIRS} ${GMOCK_INCLUDE_DIRS} ${CMAKE_SOURCE_DIR})
 enable_testing()
-add_executable(RunTests ${project_test_src} ${project_src} ${project_test_utils_src})
-target_link_libraries(RunTests ${GTEST_LIBRARIES} ${GMOCK_LIBRARIES} pthread)
-add_dependencies(RunTests SpeakerLib)
+add_executable(RunTests ${project_test_src})
+add_dependencies(RunTests VendingMachineLib TestUtilsLib)
+target_link_libraries(RunTests ${GTEST_LIBRARIES} ${GMOCK_LIBRARIES} pthread VendingMachineLib TestUtilsLib)
 
 #get boost
 set(CUKE_CORE_BOOST_LIBS thread system regex date_time)
@@ -59,8 +62,8 @@ set(CUKE_EXTRA_LIBRARIES ${CUKE_EXTRA_LIBRARIES} ${Boost_THREAD_LIBRARY} ${Boost
 
 #Create the cucumber wire server to provide steps
 add_executable(VendingMachineSteps ${project_feature_src} ${project_src} ${project_test_utils_src})
-target_link_libraries(VendingMachineSteps ${CUKE_LIBRARIES} ${CUKE_EXTRA_LIBRARIES} ${GTEST_LIBRARIES} ${GMOCK_LIBRARIES} pthread)
-add_dependencies(VendingMachineSteps VendingMachineLib)
+add_dependencies(VendingMachineSteps VendingMachineLib TestUtilsLib)
+target_link_libraries(VendingMachineSteps ${CUKE_LIBRARIES} ${CUKE_EXTRA_LIBRARIES} ${GTEST_LIBRARIES} ${GMOCK_LIBRARIES} pthread VendingMachineLib TestUtilsLib)
 
 #Run all unit tests and cukes
 add_executable(RunAllTests ${project_test_src} ${project_feature_src} ${project_src})

@@ -1,4 +1,6 @@
 #include <VendingMachine.h>
+#include <CoinRegister.h>
+#include <CoinRegisterInterfaceMock.h>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
@@ -10,19 +12,20 @@ class VendingMachineTest : public Test
 
 public:
     VendingMachineTest()
-    {
+        : TheCoinRegisterMock(new NiceMock<CoinRegisterInterfaceMock>())
+        , TheVendingMachine(TheCoinRegisterMock)
 
+    {
     }
 
     ~VendingMachineTest()
     {
-
     }
 
     bool FoundReturnedCoin(std::string penny)
     {
         bool foundCoin = false;
-        std::vector<std::string> returnedCoins = vendingMachine.CheckCoinReturn();
+        std::vector<std::string> returnedCoins = TheVendingMachine.CheckCoinReturn();
         for (std::vector<std::string>::iterator it = returnedCoins.begin(); it != returnedCoins.end(); ++it)
         {
             if (*it != penny) {
@@ -35,18 +38,19 @@ public:
         return foundCoin;
     }
 
-    VendingMachine vendingMachine;
+    NiceMock<CoinRegisterInterfaceMock>* TheCoinRegisterMock;
+    VendingMachine TheVendingMachine;
 };
 
 TEST_F(VendingMachineTest, GivenNoCoinsThenTheDisplayShouldReadINSERTCOIN)
 {
-    EXPECT_EQ("INSERT COIN", vendingMachine.ReadDisplay());
+    EXPECT_EQ("INSERT COIN", TheVendingMachine.ReadDisplay());
 }
 
 TEST_F(VendingMachineTest, GivenAPennyIsInsertedThenTheCoinReturnShouldContainThePenny)
 {
     std::string penny("penny");
-    vendingMachine.Insert(penny);
+    TheVendingMachine.Insert(penny);
 
     EXPECT_TRUE(FoundReturnedCoin(penny));
 }
@@ -67,14 +71,22 @@ struct CoinTestValues {
 class VendingMachineSingleCoinTest : public TestWithParam<CoinTestValues>
 {
 public:
-    VendingMachine vendingMachine;
+    VendingMachineSingleCoinTest()
+        : TheCoinRegister(new CoinRegister())
+        , TheVendingMachine(TheCoinRegister)
+    {
+
+    }
+
+    CoinRegisterInterface* TheCoinRegister;
+    VendingMachine TheVendingMachine;
 };
 
 TEST_P(VendingMachineSingleCoinTest, GivenACoinItShouldDisplayTheCorrectMessage)
 {
-    vendingMachine.Insert(GetParam().Coin);
+    TheVendingMachine.Insert(GetParam().Coin);
 
-    EXPECT_EQ(GetParam().ExpectedMessage, vendingMachine.ReadDisplay());
+    EXPECT_EQ(GetParam().ExpectedMessage, TheVendingMachine.ReadDisplay());
 }
 
 INSTANTIATE_TEST_CASE_P(ParameterizedSingleCoinTest, VendingMachineSingleCoinTest,

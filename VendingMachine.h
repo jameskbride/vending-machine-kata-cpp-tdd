@@ -10,7 +10,7 @@ namespace VendingMachineApp
     class VendingMachine
     {
     public:
-        VendingMachine();
+        VendingMachine(CoinRegisterInterface* coinRegister);
         ~VendingMachine();
 
 
