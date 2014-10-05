@@ -14,12 +14,16 @@ set(CUKE_LIBRARIES libcucumber-cpp.a)
 
 #define all the sources
 set(project_src
+    CoinRegister.h
+    CoinRegister.cpp
+    CoinRegisterInterface.h
     VendingMachine.h
     VendingMachine.cpp
 )
 
 set(project_test_src
     ExampleTestsMain.cpp
+    CoinRegisterTest.cpp
     VendingMachineTest.cpp
     VendingMachineInternalsTest.cpp
 )
@@ -29,6 +33,8 @@ set(project_feature_src
 )
 
 set(project_test_utils_src
+    CoinRegisterInterfaceMock.h
+    CoinRegisterInterfaceMock.cpp
     TestUtils.h
 )
 

@@ -4,17 +4,14 @@
 using namespace VendingMachineApp;
 
 const char* INSERT_COIN_MESSAGE = "INSERT COIN";
-const char* NICKEL = "NICKEL";
-const char* DIME = "DIME";
-const char* QUARTER = "QUARTER";
 
 VendingMachine::VendingMachine()
     : InsertedCoins()
     , ValidCoins()
 {
-    ValidCoins.push_back(NICKEL);
-    ValidCoins.push_back(DIME);
-    ValidCoins.push_back(QUARTER);
+    ValidCoins.push_back("NICKEL");
+    ValidCoins.push_back("DIME");
+    ValidCoins.push_back("QUARTER");
 }
 
 VendingMachine::VendingMachine(const VendingMachine &rhs)
@@ -45,11 +42,11 @@ VendingMachine& VendingMachine::operator=(const VendingMachine& rhs) {
 double VendingMachine::calculateTotalInserted() {
     double total = 0.0;
     for (std::vector<std::string>::iterator it = InsertedCoins.begin(); it != InsertedCoins.end(); ++it) {
-        if (*it == NICKEL) {
+        if (*it == "NICKEL") {
             total += 0.05;
-        } else if (*it == DIME) {
+        } else if (*it == "DIME") {
             total += 0.10;
-        } else if (*it == QUARTER) {
+        } else if (*it == "QUARTER") {
             total += 0.25;
         } else {
             total += 0.0;

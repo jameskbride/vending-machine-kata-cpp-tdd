@@ -4,10 +4,12 @@
 namespace VendingMachineApp {
 //MATCHER EXAMPLE
 //////////////////////////////////////////////////////
-    MATCHER_P(InCoinReturnSlot, vendingMachine, "") {
+    MATCHER_P(InCoinReturnSlot, vendingMachine, "")
+    {
         bool foundCoin = false;
         std::vector<std::string> returnedCoins(vendingMachine.checkCoinReturn());
-        for (std::vector<std::string>::iterator it = returnedCoins.begin(); it != returnedCoins.end(); ++it) {
+        for (std::vector<std::string>::iterator it = returnedCoins.begin(); it != returnedCoins.end(); ++it)
+        {
             if (*it != arg) {
                 continue;
             }
