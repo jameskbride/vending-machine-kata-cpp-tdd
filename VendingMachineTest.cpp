@@ -16,6 +16,22 @@ public:
 
     }
 
+    bool FoundReturnedCoin(std::string penny)
+    {
+        bool foundCoin = false;
+        std::vector<std::string> returnedCoins = vendingMachine.checkCoinReturn();
+        for (std::vector<std::string>::iterator it = returnedCoins.begin(); it != returnedCoins.end(); ++it)
+        {
+            if (*it != penny) {
+                continue;
+            }
+
+            foundCoin = true;
+        }
+
+        return foundCoin;
+    }
+
     VendingMachine vendingMachine;
 };
 
@@ -27,18 +43,7 @@ TEST_F(VendingMachineTest, GivenAPennyIsInsertedThenTheCoinReturnShouldContainTh
     std::string penny("penny");
     vendingMachine.insert(penny);
 
-    bool foundCoin = false;
-    std::vector<std::string> returnedCoins = vendingMachine.checkCoinReturn();
-    for (std::vector<std::string>::iterator it = returnedCoins.begin(); it != returnedCoins.end(); ++it)
-    {
-        if (*it != penny) {
-            continue;
-        }
-
-        foundCoin = true;
-    }
-
-    EXPECT_TRUE(foundCoin);
+    EXPECT_TRUE(FoundReturnedCoin(penny));
 }
 
 // TEST_P Example
