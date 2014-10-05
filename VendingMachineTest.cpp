@@ -55,6 +55,20 @@ TEST_F(VendingMachineTest, GivenAPennyIsInsertedThenTheCoinReturnShouldContainTh
     EXPECT_TRUE(FoundReturnedCoin(penny));
 }
 
+TEST_F(VendingMachineTest, WhenTheCoinRegisterContainsFiftyCentsThenTheDisplayShouldReadFiftyCents)
+{
+    EXPECT_CALL(*TheCoinRegisterMock, CalculateTotalInserted()).WillOnce(Return(0.50));
+
+    EXPECT_EQ("0.50", TheVendingMachine.ReadDisplay());
+}
+
+TEST_F(VendingMachineTest, WhenTheCoinRegisterIsEmptyThenTheDisplayShouldReadINSERTCOIN)
+{
+    EXPECT_CALL(*TheCoinRegisterMock, CalculateTotalInserted()).WillOnce(Return(0.00));
+
+    EXPECT_EQ("INSERT COIN", TheVendingMachine.ReadDisplay());
+}
+
 // TEST_P Example
 /////////////////////////////////////////////////////////////////
 struct CoinTestValues {
