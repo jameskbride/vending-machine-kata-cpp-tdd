@@ -1,16 +1,10 @@
 cmake_minimum_required(VERSION 2.8)
 project(vending-machine-kata CXX)
-find_package(GTest REQUIRED)
 
-#get the gmock and cucumber libraries
-set(GMOCK_INCLUDE_DIRS /usr/include/gmock)
-set(GMOCK_LIBRARIES
-    libgmock.a
-    libgmock_main.a
-)
+option(BUILD_WITH_UNIT_TESTS "Build with unit tests" ON)
+option(BUILD_WITH_ACCEPTANCE_TESTS "Build with acceptance tests" ON)
 
-set(CUKE_INCLUDE_DIRS /usr/include/cucumber-cpp)
-set(CUKE_LIBRARIES libcucumber-cpp.a)
+include_directories(${CMAKE_SOURCE_DIR})
 
 #define all the sources
 set(project_src
@@ -38,49 +32,72 @@ set(project_feature_src
     features/step_definitions/VendingMachineSteps.cpp
 )
 
-set(project_test_utils_src
-    CoinRegisterInterfaceMock.h
-    CoinRegisterInterfaceMock.cpp
-    ProductCatalogInterfaceMock.h
-    ProductCatalogInterfaceMock.cpp
-)
-
 #create the VendingMachine lib
 add_library(VendingMachineLib ${project_src})
 
-add_library(TestUtilsLib ${project_test_utils_src})
-add_dependencies(TestUtilsLib VendingMachineLib)
+#shared libs
+if(BUILD_WITH_UNIT_TESTS OR BUILD_WITH_ACCEPTANCE_TESTS)
+    include_directories(${GTEST_INCLUDE_DIRS} ${GMOCK_INCLUDE_DIRS} )
+    find_package(GTest REQUIRED)
+
+    #get the gmock and cucumber libraries
+    set(GMOCK_INCLUDE_DIRS /usr/include/gmock)
+    set(GMOCK_LIBRARIES
+        libgmock.a
+        libgmock_main.a
+    )
+    enable_testing()
+
+    set(project_test_utils_src
+        CoinRegisterInterfaceMock.h
+        CoinRegisterInterfaceMock.cpp
+        ProductCatalogInterfaceMock.h
+        ProductCatalogInterfaceMock.cpp
+    )
+
+    add_library(TestUtilsLib ${project_test_utils_src})
+    add_dependencies(TestUtilsLib VendingMachineLib)
+endif(BUILD_WITH_UNIT_TESTS OR BUILD_WITH_ACCEPTANCE_TESTS)
 
 #unit tests
-include_directories(${GTEST_INCLUDE_DIRS} ${GMOCK_INCLUDE_DIRS} ${CMAKE_SOURCE_DIR})
-enable_testing()
-add_executable(RunTests ${project_test_src})
-add_dependencies(RunTests VendingMachineLib TestUtilsLib)
-target_link_libraries(RunTests ${GTEST_LIBRARIES} ${GMOCK_LIBRARIES} pthread VendingMachineLib TestUtilsLib)
+if(BUILD_WITH_UNIT_TESTS)
+    add_executable(RunTests ${project_test_src})
+    add_dependencies(RunTests VendingMachineLib TestUtilsLib)
+    target_link_libraries(RunTests ${GTEST_LIBRARIES} ${GMOCK_LIBRARIES} pthread VendingMachineLib TestUtilsLib)
+endif(BUILD_WITH_UNIT_TESTS)
 
-#get boost
-set(CUKE_CORE_BOOST_LIBS thread system regex date_time)
-set(CUKE_DYNAMIC_BOOST_LIBS ${CUKE_CORE_BOOST_LIBS} ${CUKE_TEST_BOOST_LIBS})
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DBOOST_ALL_DYN_LINK")
-set(Boost_USE_STATIC_LIBS OFF)
-find_package(Boost COMPONENTS ${CUKE_DYNAMIC_BOOST_LIBS})
-include_directories(${Boost_INCLUDE_DIRS})
+if(BUILD_WITH_ACCEPTANCE_TESTS)
+    #get the cucumber libraries
+    set(CUKE_INCLUDE_DIRS /usr/include/cucumber-cpp)
+    set(CUKE_LIBRARIES libcucumber-cpp.a)
 
-#define the cuke extra libs
-set(CUKE_EXTRA_LIBRARIES ${CUKE_EXTRA_LIBRARIES} ${Boost_THREAD_LIBRARY} ${Boost_SYSTEM_LIBRARY} ${Boost_REGEX_LIBRARY} ${Boost_DATE_TIME_LIBRARY})
+    #get boost
+    set(CUKE_CORE_BOOST_LIBS thread system regex date_time)
+    set(CUKE_DYNAMIC_BOOST_LIBS ${CUKE_CORE_BOOST_LIBS} ${CUKE_TEST_BOOST_LIBS})
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DBOOST_ALL_DYN_LINK")
+    set(Boost_USE_STATIC_LIBS OFF)
+    find_package(Boost COMPONENTS ${CUKE_DYNAMIC_BOOST_LIBS})
+    include_directories(${Boost_INCLUDE_DIRS})
 
-#Create the cucumber wire server to provide steps
-add_executable(VendingMachineSteps ${project_feature_src})
-add_dependencies(VendingMachineSteps VendingMachineLib TestUtilsLib)
-target_link_libraries(VendingMachineSteps ${CUKE_LIBRARIES} ${CUKE_EXTRA_LIBRARIES} ${GTEST_LIBRARIES} ${GMOCK_LIBRARIES} pthread VendingMachineLib TestUtilsLib)
+    #define the cuke extra libs
+    set(CUKE_EXTRA_LIBRARIES ${CUKE_EXTRA_LIBRARIES} ${Boost_THREAD_LIBRARY} ${Boost_SYSTEM_LIBRARY} ${Boost_REGEX_LIBRARY} ${Boost_DATE_TIME_LIBRARY})
 
-#Run all unit tests and cukes
-add_executable(RunAllTests ${project_test_src} ${project_feature_src} ${project_src})
-target_link_libraries(RunAllTests ${CUKE_LIBRARIES} ${CUKE_EXTRA_LIBRARIES} ${GTEST_LIBRARIES} ${GMOCK_LIBRARIES} pthread)
+    #Create the cucumber wire server to provide steps
+    add_executable(VendingMachineSteps ${project_feature_src})
+    add_dependencies(VendingMachineSteps VendingMachineLib TestUtilsLib)
+    target_link_libraries(VendingMachineSteps ${CUKE_LIBRARIES} ${CUKE_EXTRA_LIBRARIES} ${GTEST_LIBRARIES} ${GMOCK_LIBRARIES} pthread VendingMachineLib TestUtilsLib)
+endif(BUILD_WITH_ACCEPTANCE_TESTS)
 
-add_custom_command(TARGET RunAllTests
-    POST_BUILD
-    COMMAND RunTests
-    COMMAND VendingMachineSteps 55555 &
-    COMMAND cucumber -s ${CMAKE_SOURCE_DIR}/features
-)
+if(BUILD_WITH_UNIT_TESTS AND BUILD_WITH_ACCEPTANCE_TESTS)
+    #Run all unit tests and cukes
+    add_executable(RunAllTests ${project_test_src} ${project_feature_src} ${project_src})
+    target_link_libraries(RunAllTests ${CUKE_LIBRARIES} ${CUKE_EXTRA_LIBRARIES} ${GTEST_LIBRARIES} ${GMOCK_LIBRARIES} pthread)
+
+    add_custom_command(TARGET RunAllTests
+        POST_BUILD
+        COMMAND RunTests
+        COMMAND VendingMachineSteps 55555 &
+        COMMAND cucumber -s ${CMAKE_SOURCE_DIR}/features
+    )
+endif(BUILD_WITH_UNIT_TESTS AND BUILD_WITH_ACCEPTANCE_TESTS)
+
