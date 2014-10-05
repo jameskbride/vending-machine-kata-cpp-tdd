@@ -24,6 +24,7 @@ set(project_src
 set(project_test_src
     ExampleTestsMain.cpp
     CoinRegisterTest.cpp
+    CoinRegisterInternalsTest.cpp
     VendingMachineTest.cpp
     VendingMachineInternalsTest.cpp
 )

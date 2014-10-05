@@ -1,4 +1,5 @@
 #include "VendingMachine.h"
+#include "CoinRegister.h"
 #include <cstdio>
 
 using namespace VendingMachineApp;
@@ -7,6 +8,7 @@ const char* INSERT_COIN_MESSAGE = "INSERT COIN";
 
 VendingMachine::VendingMachine()
     : InsertedCoins()
+    , ReturnedCoins()
     , ValidCoins()
 {
     ValidCoins.push_back("NICKEL");
@@ -14,11 +16,14 @@ VendingMachine::VendingMachine()
     ValidCoins.push_back("QUARTER");
 }
 
+VendingMachine::~VendingMachine()
+{
+}
+
 VendingMachine::VendingMachine(const VendingMachine &rhs)
     : InsertedCoins(rhs.InsertedCoins)
     , ReturnedCoins(rhs.ReturnedCoins)
 {
-
 }
 
 bool VendingMachine::operator==(const VendingMachine& rhs) const {

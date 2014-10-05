@@ -49,27 +49,27 @@ TEST_F(CoinRegisterTest, WhenAPennyIsCheckedThenItIsInValid)
 
 TEST_F(CoinRegisterTest, GivenANickelIsInsertedWhenTheTotalIsCalculatedThenItIsFiveCents)
 {
-    TheCoinRegister.Accept("NICKEL");
+    ASSERT_TRUE(TheCoinRegister.Accept("NICKEL"));
 
     EXPECT_DOUBLE_EQ(0.05, TheCoinRegister.CalculateTotalInserted());
 }
 
 TEST_F(CoinRegisterTest, GivenADimeIsInsertedWhenTheTotalIsCalculatedThenItIsTenCents)
 {
-    TheCoinRegister.Accept("DIME");
+    ASSERT_TRUE(TheCoinRegister.Accept("DIME"));
 
     EXPECT_DOUBLE_EQ(0.10, TheCoinRegister.CalculateTotalInserted());
 }
 TEST_F(CoinRegisterTest, GivenAQuarterIsInsertedWhenTheTotalIsCalculatedThenItIsTwentyFiveCents)
 {
-    TheCoinRegister.Accept("QUARTER");
+    ASSERT_TRUE(TheCoinRegister.Accept("QUARTER"));
 
     EXPECT_DOUBLE_EQ(0.25, TheCoinRegister.CalculateTotalInserted());
 }
 
 TEST_F(CoinRegisterTest, GivenAPennyIsInsertedWhenTheTotalIsCalculatedThenItIsZeroCents)
 {
-    TheCoinRegister.Accept("PENNY");
+    ASSERT_FALSE(TheCoinRegister.Accept("PENNY"));
 
     EXPECT_DOUBLE_EQ(0.00, TheCoinRegister.CalculateTotalInserted());
 }

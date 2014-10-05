@@ -19,6 +19,31 @@ CoinRegister::~CoinRegister()
 {
 }
 
+CoinRegister::CoinRegister(const CoinRegister &rhs)
+    : InsertedCoins(rhs.InsertedCoins)
+{
+
+}
+
+bool CoinRegister::operator==(const CoinRegister &rhs) const
+{
+    return (InsertedCoins == rhs.InsertedCoins);
+}
+
+bool CoinRegister::operator!=(const CoinRegister &rhs) const
+{
+    return !(*this == rhs);
+}
+
+CoinRegister& CoinRegister::operator=(const CoinRegister &rhs)
+{
+    if (this != &rhs) {
+        InsertedCoins = rhs.InsertedCoins;
+    }
+
+    return (*this);
+}
+
 bool CoinRegister::IsValidCoin(const std::string& coin)
 {
     bool foundCoin = false;
@@ -39,7 +64,10 @@ bool CoinRegister::Accept(const std::string& coin)
 {
     if (IsValidCoin(coin)) {
         InsertedCoins.push_back(coin);
+        return true;
     }
+
+    return false;
 }
 
 double CoinRegister::CalculateTotalInserted()

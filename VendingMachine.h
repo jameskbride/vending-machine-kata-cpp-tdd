@@ -1,6 +1,6 @@
 #ifndef VENDINGMACHINE_H
 #define VENDINGMACHINE_H
-
+#include "CoinRegisterInterface.h"
 #include <string>
 #include <vector>
 
@@ -10,6 +10,7 @@ namespace VendingMachineApp {
     {
     public:
         VendingMachine();
+        ~VendingMachine();
         VendingMachine(const VendingMachine& rhs);
         VendingMachine& operator=(const VendingMachine& rhs);
         bool operator==(const VendingMachine& rhs) const;
