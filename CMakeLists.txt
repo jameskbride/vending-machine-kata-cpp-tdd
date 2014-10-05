@@ -70,7 +70,7 @@ include_directories(${Boost_INCLUDE_DIRS})
 set(CUKE_EXTRA_LIBRARIES ${CUKE_EXTRA_LIBRARIES} ${Boost_THREAD_LIBRARY} ${Boost_SYSTEM_LIBRARY} ${Boost_REGEX_LIBRARY} ${Boost_DATE_TIME_LIBRARY})
 
 #Create the cucumber wire server to provide steps
-add_executable(VendingMachineSteps ${project_feature_src} ${project_src} ${project_test_utils_src})
+add_executable(VendingMachineSteps ${project_feature_src})
 add_dependencies(VendingMachineSteps VendingMachineLib TestUtilsLib)
 target_link_libraries(VendingMachineSteps ${CUKE_LIBRARIES} ${CUKE_EXTRA_LIBRARIES} ${GTEST_LIBRARIES} ${GMOCK_LIBRARIES} pthread VendingMachineLib TestUtilsLib)
 

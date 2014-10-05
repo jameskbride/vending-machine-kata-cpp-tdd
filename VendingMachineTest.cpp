@@ -18,7 +18,6 @@ public:
         : TheCoinRegisterMock(new NiceMock<CoinRegisterInterfaceMock>())
         , TheProductCatalogMock(new NiceMock<ProductCatalogInterfaceMock>())
         , TheVendingMachine(TheCoinRegisterMock, TheProductCatalogMock)
-
     {
     }
 
