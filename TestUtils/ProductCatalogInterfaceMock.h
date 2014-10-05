@@ -1,7 +1,7 @@
 #ifndef PRODUCT_CATALOG_INTERFACE_MOCK_H
 #define PRODUCT_CATALOG_INTERFACE_MOCK_H
 
-#include "ProductCatalogInterface.h"
+#include <VendingMachine/ProductCatalogInterface.h>
 
 #include <gmock/gmock.h>
 

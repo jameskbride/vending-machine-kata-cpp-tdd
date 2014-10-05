@@ -1,8 +1,8 @@
-#include <VendingMachine.h>
-#include <CoinRegister.h>
-#include <CoinRegisterInterfaceMock.h>
-#include <ProductCatalog.h>
-#include <ProductCatalogInterfaceMock.h>
+#include <VendingMachine/VendingMachine.h>
+#include <VendingMachine/CoinRegister.h>
+#include <VendingMachine/ProductCatalog.h>
+#include <TestUtils/CoinRegisterInterfaceMock.h>
+#include <TestUtils/ProductCatalogInterfaceMock.h>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

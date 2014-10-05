@@ -1,6 +1,6 @@
 #ifndef COIN_REGISTER_H
 #define COIN_REGISTER_H
-#include <CoinRegisterInterface.h>
+#include <VendingMachine/CoinRegisterInterface.h>
 
 #include <string>
 #include <vector>

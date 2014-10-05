@@ -1,4 +1,4 @@
-#include "ProductCatalog.h"
+#include <VendingMachine/ProductCatalog.h>
 #include <gtest/gtest.h>
 
 using namespace VendingMachineApp;

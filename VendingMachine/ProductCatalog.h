@@ -1,7 +1,7 @@
 #ifndef PRODUCT_CATALOG_H
 #define PRODUCT_CATALOG_H
 
-#include <ProductCatalogInterface.h>
+#include <VendingMachine/ProductCatalogInterface.h>
 
 namespace VendingMachineApp
 {

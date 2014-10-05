@@ -1,6 +1,6 @@
 #ifndef COIN_REGISTER_INTERFACE_MOCK_H
 #define COIN_REGISTER_INTERFACE_MOCK_H
-#include <CoinRegisterInterface.h>
+#include <VendingMachine/CoinRegisterInterface.h>
 #include <gmock/gmock.h>
 
 namespace VendingMachineApp {

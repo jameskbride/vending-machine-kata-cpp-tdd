@@ -1,4 +1,4 @@
-#include <CoinRegister.h>
+#include <VendingMachine/CoinRegister.h>
 #include <gtest/gtest.h>
 
 using namespace VendingMachineApp;
