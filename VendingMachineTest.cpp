@@ -42,14 +42,11 @@ public:
     VendingMachine TheVendingMachine;
 };
 
-TEST_F(VendingMachineTest, GivenNoCoinsThenTheDisplayShouldReadINSERTCOIN)
-{
-    EXPECT_EQ("INSERT COIN", TheVendingMachine.ReadDisplay());
-}
-
 TEST_F(VendingMachineTest, GivenAPennyIsInsertedThenTheCoinReturnShouldContainThePenny)
 {
     std::string penny("penny");
+    EXPECT_CALL(*TheCoinRegisterMock, Accept("penny")).WillOnce(Return(false));
+
     TheVendingMachine.Insert(penny);
 
     EXPECT_TRUE(FoundReturnedCoin(penny));
