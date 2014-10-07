@@ -1,8 +1,17 @@
 #include <VendingMachine/ProductCatalog.h>
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 
 using namespace VendingMachineApp;
 using namespace testing;
+
+
+MATCHER_P2(MatchesProduct, name, price, "")
+{
+    Product expectedProduct(name, price);
+
+    return arg == expectedProduct;
+}
 
 class ProductCatalogTest : public Test
 {
@@ -20,7 +29,6 @@ public:
 
 TEST_F(ProductCatalogTest, WhenChipsAreRequestedThenTheProductIsReturned)
 {
-    Product chips ("CHIPS", 0.50);
-
-    EXPECT_EQ(chips, TheProductCatalog.GetProduct("CHIPS"));
+    Product actualProduct = TheProductCatalog.GetProduct("CHIPS");
+    EXPECT_THAT(actualProduct, MatchesProduct("CHIPS", 0.50));
 }

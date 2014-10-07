@@ -11,6 +11,7 @@ namespace VendingMachineApp {
         bool operator!=(const Product& rhs) const;
 
         double GetPrice();
+        std::string GetName();
 
     private:
         std::string Name;

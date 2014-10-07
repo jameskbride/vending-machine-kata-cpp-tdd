@@ -21,5 +21,10 @@ bool Product::operator!=(const Product &rhs) const
 
 double Product::GetPrice()
 {
-    return 0.0;
+    return Price;
+}
+
+std::string Product::GetName()
+{
+    return Name;
 }
