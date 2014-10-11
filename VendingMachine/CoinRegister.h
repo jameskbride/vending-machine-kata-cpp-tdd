@@ -1,6 +1,6 @@
 #ifndef COIN_REGISTER_H
 #define COIN_REGISTER_H
-#include <VendingMachine/CoinRegisterInterface.h>
+#include "CoinRegisterInterface.h"
 
 #include <string>
 #include <vector>
@@ -15,6 +15,7 @@ namespace VendingMachineApp
         bool IsValidCoin(const std::string& coin);
         bool Accept(const std::string &coin);
         double CalculateTotalInserted();
+        bool HasAtLeast(const double amount);
 
     private:
         std::vector<std::string> ValidCoins;

@@ -1,6 +1,6 @@
-#include <VendingMachine/VendingMachine.h>
-#include <VendingMachine/CoinRegister.h>
-#include <VendingMachine/ProductCatalog.h>
+#include <VendingMachine.h>
+#include <CoinRegister.h>
+#include <ProductCatalog.h>
 #include <cucumber-cpp/defs.hpp>
 #include <gtest/gtest.h>
 

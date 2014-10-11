@@ -10,8 +10,9 @@ namespace VendingMachineApp
         CoinRegisterInterfaceMock();
 
         MOCK_METHOD1(IsValidCoin, bool(const std::string&));
-        MOCK_METHOD1(Accept, bool(const std::string& coin));
+        MOCK_METHOD1(Accept, bool(const std::string&));
         MOCK_METHOD0(CalculateTotalInserted, double());
+        MOCK_METHOD1(HasAtLeast, bool(const double amount));
     };
 }
 

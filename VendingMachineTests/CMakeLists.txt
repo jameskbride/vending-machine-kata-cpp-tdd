@@ -2,6 +2,9 @@
 if(BUILD_WITH_UNIT_TESTS)
     set(project_test_src
         ExampleTestsMain.cpp
+        CoinRegisterTest.cpp
+        ProductTest.cpp
+        ProductCatalogTest.cpp
         VendingMachineTest.cpp
     )
 
