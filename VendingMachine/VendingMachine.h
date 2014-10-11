@@ -1,29 +1,29 @@
 #ifndef VENDINGMACHINE_H
 #define VENDINGMACHINE_H
-
+#include "CoinRegisterInterface.h"
 #include <string>
 #include <vector>
 
-namespace VendingMachineApp {
+namespace VendingMachineApp
+{
 
     class VendingMachine
     {
     public:
-        VendingMachine();
+        VendingMachine(CoinRegisterInterface* coinRegister);
+        ~VendingMachine();
 
-        std::string readDisplay();
-        void insert(std::string coin);
-        std::vector<std::string> checkCoinReturn() const;
+
+        std::string ReadDisplay();
+        void Insert(std::string coin);
+        std::vector<std::string> CheckCoinReturn();
 
     private:
-        std::vector<std::string> InsertedCoins;
         std::vector<std::string> ReturnedCoins;
-        std::vector<std::string> ValidCoins;
+        CoinRegisterInterface* TheCoinRegister;
 
-        double calculateTotalInserted();
-        std::string generateFormattedMessage(double total);
-        bool isValidCoin(std::string coin);
-
+        std::string GenerateFormattedMessage(double total);
+        //Not implemented
         VendingMachine(const VendingMachine& rhs);
     };
 }

@@ -1,27 +1,34 @@
 #include <VendingMachine/VendingMachine.h>
+#include <VendingMachine/CoinRegister.h>
+#include <TestUtils/CoinRegisterInterfaceMock.h>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 using namespace VendingMachineApp;
 using namespace testing;
 
-class VendingMachineTest : public Test {
+class VendingMachineTest : public Test
+{
 
 public:
-    VendingMachineTest() {
+    VendingMachineTest()
+        : TheCoinRegisterMock(new NiceMock<CoinRegisterInterfaceMock>())
+        , TheVendingMachine(TheCoinRegisterMock)
 
+    {
     }
 
-    ~VendingMachineTest() {
-
+    ~VendingMachineTest()
+    {
     }
 
-    bool InCoinReturnSlot(const std::string& coin)
+    bool FoundReturnedCoin(std::string penny)
     {
         bool foundCoin = false;
-        std::vector<std::string> returnedCoins(TheVendingMachine.checkCoinReturn());
-        for (std::vector<std::string>::iterator it = returnedCoins.begin(); it != returnedCoins.end(); ++it) {
-            if (*it != coin) {
+        std::vector<std::string> returnedCoins = TheVendingMachine.CheckCoinReturn();
+        for (std::vector<std::string>::iterator it = returnedCoins.begin(); it != returnedCoins.end(); ++it)
+        {
+            if (*it != penny) {
                 continue;
             }
 
@@ -31,20 +38,21 @@ public:
         return foundCoin;
     }
 
+    NiceMock<CoinRegisterInterfaceMock>* TheCoinRegisterMock;
     VendingMachine TheVendingMachine;
 };
 
 TEST_F(VendingMachineTest, GivenNoCoinsThenTheDisplayShouldReadINSERTCOIN)
 {
-    EXPECT_EQ("INSERT COIN", TheVendingMachine.readDisplay());
+    EXPECT_EQ("INSERT COIN", TheVendingMachine.ReadDisplay());
 }
 
 TEST_F(VendingMachineTest, GivenAPennyIsInsertedThenTheCoinReturnShouldContainThePenny)
 {
     std::string penny("penny");
-    TheVendingMachine.insert(penny);
+    TheVendingMachine.Insert(penny);
 
-    EXPECT_TRUE(InCoinReturnSlot(penny));
+    EXPECT_TRUE(FoundReturnedCoin(penny));
 }
 
 // TEST_P Example
@@ -60,15 +68,25 @@ struct CoinTestValues {
     std::string ExpectedMessage;
 };
 
-class VendingMachineSingleCoinTest : public TestWithParam<CoinTestValues> {
+class VendingMachineSingleCoinTest : public TestWithParam<CoinTestValues>
+{
 public:
+    VendingMachineSingleCoinTest()
+        : TheCoinRegister(new CoinRegister())
+        , TheVendingMachine(TheCoinRegister)
+    {
+
+    }
+
+    CoinRegisterInterface* TheCoinRegister;
     VendingMachine TheVendingMachine;
 };
 
-TEST_P(VendingMachineSingleCoinTest, GivenACoinItShouldDisplayTheCorrectMessage) {
-    TheVendingMachine.insert(GetParam().Coin);
+TEST_P(VendingMachineSingleCoinTest, GivenACoinItShouldDisplayTheCorrectMessage)
+{
+    TheVendingMachine.Insert(GetParam().Coin);
 
-    EXPECT_EQ(GetParam().ExpectedMessage, TheVendingMachine.readDisplay());
+    EXPECT_EQ(GetParam().ExpectedMessage, TheVendingMachine.ReadDisplay());
 }
 
 INSTANTIATE_TEST_CASE_P(ParameterizedSingleCoinTest, VendingMachineSingleCoinTest,

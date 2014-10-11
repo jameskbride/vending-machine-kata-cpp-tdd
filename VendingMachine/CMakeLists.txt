@@ -1,5 +1,7 @@
 set(project_src
     CoinRegisterInterface.h
+    CoinRegister.h
+    CoinRegister.cpp
     VendingMachine.h
     VendingMachine.cpp
 )

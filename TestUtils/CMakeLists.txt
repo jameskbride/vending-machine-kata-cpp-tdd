@@ -1,8 +1,8 @@
 #shared libs
 if(BUILD_WITH_UNIT_TESTS OR BUILD_WITH_ACCEPTANCE_TESTS)
     set(project_test_utils_src
-        CoinRegisterMock.h
-        CoinRegisterMock.cpp
+        CoinRegisterInterfaceMock.h
+        CoinRegisterInterfaceMock.cpp
     )
 
     add_library(TestUtilsLib ${project_test_utils_src})
