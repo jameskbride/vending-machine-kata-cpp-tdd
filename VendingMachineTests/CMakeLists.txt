@@ -2,6 +2,7 @@
 if(BUILD_WITH_UNIT_TESTS)
     set(project_test_src
         ExampleTestsMain.cpp
+        VendingMachineTest.cpp
     )
 
     add_executable(RunTests ${project_test_src})
