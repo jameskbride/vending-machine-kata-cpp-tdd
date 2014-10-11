@@ -1,10 +1,14 @@
 #ifndef COINREGISTERMOCK_H
 #define COINREGISTERMOCK_H
+#include <VendingMachine/CoinRegisterInterface.h>
 
-class CoinRegisterMock : public CoinRegisterInterface
+namespace VendingMachineApp
 {
-public:
-    CoinRegisterMock();
-};
+    class CoinRegisterMock : public CoinRegisterInterface
+    {
+    public:
+        CoinRegisterMock();
+    };
+}
 
 #endif // COINREGISTERMOCK_H
